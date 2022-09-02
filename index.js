@@ -1,11 +1,11 @@
 /* Your Code Here */
 //creating employee record
-function createEmployeeRecord(array) {
+function createEmployeeRecord(row) {
     return {
-        firstName: array[0],
-        familyName: array[1],
-        title: array[2],
-        payPerHour: array[3],
+        firstName: row[0],
+        familyName: row[1],
+        title: row[2],
+        payPerHour: row[3],
         timeInEvents: [],
         timeOutEvents: []
     };
@@ -17,18 +17,19 @@ let createEmployeeRecords = (employeeRowData) => {
 };
 
 //Time-in event
-let createTimeInEvent = dateStamp => {
-    let [date, hour] = dateStamp.split(' ');
+let createTimeInEvent = function(dateStamp) {
+    let [date, hour] = dateStamp.split(' ')
+
     this.timeInEvents.push({
-        type: 'TimeIn',
+        type: "TimeIn",
         hour: parseInt(hour, 10),
         date,
-    });
-    return this;
+    })
+    return this
 }
 
 //Time-out event
-let createTimeOutEvent = dateStamp => {
+let createTimeOutEvent = function(dateStamp) {
     let [date, hour] = dateStamp.split(' ')
     this.timeOutEvents.push({
         type: "TimeOut",
@@ -39,16 +40,16 @@ let createTimeOutEvent = dateStamp => {
 }
 
 //Hours worked on specific date
-let hoursWorkedOnDate = specificDate => {
-    let timeInEvent = this.timeInEvents.find(e => {return e.date === specificDate});
-    let timeOutEvent = this.timeOutEvents.find(e => {return e.date === specificDate});
-    return (timeOutEvent.hour - timeInEvent.hour)/100;
+let hoursWorkedOnDate = function(specificDate) {
+    let timeInEvent = this.timeInEvents.find(e => e.date === specificDate);
+    let timeOutEvent = this.timeOutEvents.find(e => e.date === specificDate);
+    return (timeOutEvent.hour - timeInEvent.hour)/100; //200
 }
 
 //wages earned on date
-let wagesEarnedOnDate = specDate => {
+let wagesEarnedOnDate = function(specDate) {
     let newWage = hoursWorkedOnDate.call(this, specDate)
-    *this.payPerHour
+    * this.payPerHour
     return parseFloat(newWage.toString())
 }
 
@@ -64,7 +65,7 @@ let wagesEarnedOnDate = specDate => {
 }*/
 
 const allWagesFor = function () {
-    const eligibleDates = this.timeInEvents.map(function (e) {
+    const eligibleDates = this.timeInEvents.map(function (e) { //let
         return e.date
     })
 
@@ -78,14 +79,15 @@ const allWagesFor = function () {
 
 //Finding specific employee
 let findEmployeeByFirstName = (xArray, firstName) => {
-    return xArray.find(rec => {return rec.firstName === firstName});
+    return xArray.find(rec => rec.firstName === firstName);
 }
 
 //Payroll
-let calculatePayroll = (employeeRecordsArray) => {
-    return employeeRecordsArray.reduce((memo, rec) => {return memo + allWagesFor.call(rec)});
+function calculatePayroll(employeeRecordsArray) {
+    return employeeRecordsArray.reduce(function(memo, rec){
+        return memo + allWagesFor.call(rec)
+    }, 0)
 }
-
 /*
  We're giving you this function. Take a look at it, you might see some usage
  that's new and different. That's because we're avoiding a well-known, but
